@@ -7,7 +7,7 @@ import { elements } from "./view/elements.js";
 // Mudar endpoint caso o caminho seja diferente
 const url = "http://localhost/todo_list/todo.php?id=1";
 
-const controlToDoFromApi = async () => {
+const getDataFromApi = async () => {
     try {
         let todo = new ToDo(url);
         await todo.getResults();
@@ -18,7 +18,7 @@ const controlToDoFromApi = async () => {
 };
 
 // Pegando dados da API ao carregar página
-window.addEventListener("load", controlToDoFromApi);
+window.addEventListener("load", getDataFromApi);
 
 // Listeners para butão e input vazio
 elements.addButton.addEventListener("click", () => view.handleAddTask());
