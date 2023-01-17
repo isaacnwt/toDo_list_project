@@ -1,11 +1,7 @@
-class Task {
-
-    constructor(
-        private id: number, 
-        private title: string,
-        private description: string = null,
-        private done: boolean = false, 
-        private userId: number
-    ) {}
-
-} export { Task }
+interface Task {
+    id: number;
+    title: string;
+    description: string;
+    done: boolean;
+    user_id: number;
+}

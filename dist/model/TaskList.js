@@ -7,20 +7,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { TaskList } from "./model/TaskList.js";
-import * as view from "./view/task-view.js";
-import { elements } from "./view/elements.js";
-const url = "http://localhost/todo_list/todo.php?id=1";
-const getDataFromApi = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        let taskList = new TaskList(url);
-        yield taskList.getResults();
-        view.showTaskList(taskList.list);
+class TaskList {
+    constructor(api) {
+        this.api = api;
     }
-    catch (error) {
-        console.log("Erro ao comunicar com a API");
+    getResults() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch(this.api);
+                this._list = yield response.json();
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
     }
-});
-window.addEventListener("load", getDataFromApi);
-elements.addButton.addEventListener("click", () => view.addTask());
-elements.input.addEventListener("change", () => view.removeErrorClass());
+    get list() {
+        return this._list;
+    }
+}
+export { TaskList };
