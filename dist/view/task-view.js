@@ -1,12 +1,12 @@
 import { elements } from "./elements.js";
-const isInputEmpty = () => elements.input.innerHTML.trim().length > 0;
+const isInputEmpty = () => elements.input.value.trim().length > 0;
 export const addTask = () => {
     let inputIsValid = isInputEmpty();
     if (!inputIsValid) {
         return inputIsValid = elements.input.classList.add("error");
     }
-    createNewTodoDiv(elements.input.innerHTML);
-    elements.input.innerHTML = "";
+    createNewTodoDiv(elements.input.value);
+    elements.input.value = "";
 };
 export const removeErrorClass = () => {
     const inputIsValid = isInputEmpty();
