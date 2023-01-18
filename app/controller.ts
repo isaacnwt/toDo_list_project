@@ -5,13 +5,16 @@ import * as view from "./view/task-view.js";
 import { elements } from "./view/elements.js";
 
 
-const url = "http://localhost/todo_list/todo.php?id=1";
+const url = "http://localhost/todo_list/todo.php";
 
 const getDataFromApi = async (): Promise<void> => {
     try {
-        let taskList = new TaskList(url);
+        let taskList = new TaskList(url, 1);
         await taskList.getResults();
         view.showTaskList(taskList.list);
+
+        taskList.deleteTask(2);
+
     } catch (error) {
       console.log("Erro ao comunicar com a API");
     }

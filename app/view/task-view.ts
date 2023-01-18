@@ -1,3 +1,4 @@
+import { TaskList } from "../model/TaskList.js";
 import { elements } from "./elements.js"
 
 
@@ -8,7 +9,7 @@ export const addTask = (): void => {
 
     if (!inputIsValid) { return inputIsValid = elements.input.classList.add("error"); }
 
-    createNewTodoDiv(elements.input.value);
+    createNewTodoDiv(1000, elements.input.value);
     elements.input.value = "";
 }
 
@@ -17,14 +18,14 @@ export const removeErrorClass = () => {
     if (inputIsValid) { return elements.input.classList.remove("error"); }
 };
 
-const createNewTodoDiv = (title: string): void => {
+const createNewTodoDiv = (id: number, title: string): void => {
     const taskItemContainer = document.createElement("div");
     const taskContent = document.createElement("p");
     const deleteItem = document.createElement("i");
 
     taskContent.innerHTML = title; 
     
-    // deleteItem.addEventListener("click", () => deleteTask());
+    deleteItem.addEventListener("click", () => deleteTask(id));
 
     taskItemContainer.classList.add("task-item");
     deleteItem.classList.add("fa-solid");
@@ -37,6 +38,10 @@ const createNewTodoDiv = (title: string): void => {
 
 export const showTaskList = (taskList: Task[]) => {
     taskList.forEach(task => {
-        createNewTodoDiv(task.title);
+        createNewTodoDiv(task.id, task.title);
     });
+}
+
+const deleteTask = (id: number): void => {
+    
 }

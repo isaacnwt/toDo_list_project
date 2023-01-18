@@ -5,7 +5,7 @@ export const addTask = () => {
     if (!inputIsValid) {
         return inputIsValid = elements.input.classList.add("error");
     }
-    createNewTodoDiv(elements.input.value);
+    createNewTodoDiv(1000, elements.input.value);
     elements.input.value = "";
 };
 export const removeErrorClass = () => {
@@ -14,12 +14,12 @@ export const removeErrorClass = () => {
         return elements.input.classList.remove("error");
     }
 };
-const createNewTodoDiv = (title) => {
+const createNewTodoDiv = (id, title) => {
     const taskItemContainer = document.createElement("div");
     const taskContent = document.createElement("p");
     const deleteItem = document.createElement("i");
     taskContent.innerHTML = title;
-    // deleteItem.addEventListener("click", () => deleteTask());
+    deleteItem.addEventListener("click", () => deleteTask(id));
     taskItemContainer.classList.add("task-item");
     deleteItem.classList.add("fa-solid");
     deleteItem.classList.add("fa-trash");
@@ -29,6 +29,8 @@ const createNewTodoDiv = (title) => {
 };
 export const showTaskList = (taskList) => {
     taskList.forEach(task => {
-        createNewTodoDiv(task.title);
+        createNewTodoDiv(task.id, task.title);
     });
+};
+const deleteTask = (id) => {
 };
