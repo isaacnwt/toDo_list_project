@@ -37,6 +37,7 @@ const createNewTodoDiv = (id: number, title: string): void => {
 }
 
 export const showTaskList = (taskList: Task[]) => {
+    elements.tasksContainer.innerHTML = "";
     taskList.forEach(task => {
         createNewTodoDiv(task.id, task.title);
     });

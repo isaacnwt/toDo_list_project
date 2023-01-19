@@ -60,13 +60,16 @@ class TaskList {
                 const json = yield response.json();
                 if (response.status === 201) {
                     console.log(json.msg);
+                    return true;
                 }
                 else {
                     console.error(json.msg);
+                    return false;
                 }
             }
             catch (error) {
                 console.error(error);
+                return false;
             }
         });
     }

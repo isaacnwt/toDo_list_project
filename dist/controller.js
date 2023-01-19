@@ -11,9 +11,9 @@ import { TaskList } from "./model/TaskList.js";
 import * as view from "./view/task-view.js";
 import { elements } from "./view/elements.js";
 const url = "http://localhost/todo_list/todo.php";
+const taskList = new TaskList(url, 1);
 const getDataFromApi = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let taskList = new TaskList(url, 1);
         yield taskList.getResults();
         view.showTaskList(taskList.list);
     }
@@ -22,5 +22,15 @@ const getDataFromApi = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 window.addEventListener("load", getDataFromApi);
-elements.addButton.addEventListener("click", () => view.addTask());
+elements.addButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
+    let request = taskList.createTask(elements.input.value);
+    if (request) {
+        view.addTask();
+        yield taskList.getResults();
+        view.showTaskList(taskList.list);
+    }
+    else {
+        alert("Falha ao registrar!");
+    }
+}));
 elements.input.addEventListener("change", () => view.removeErrorClass());
