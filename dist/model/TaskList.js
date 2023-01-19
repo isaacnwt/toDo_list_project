@@ -12,7 +12,7 @@ class TaskList {
         this.api = api;
         this.userId = userId;
     }
-    getResults() {
+    getTasks() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield fetch(`${this.api}?id=${this.userId.toString()}`);
@@ -36,13 +36,16 @@ class TaskList {
                 const json = yield response.json();
                 if (response.status === 200) {
                     console.log(json.msg);
+                    return true;
                 }
                 else {
                     console.error(json.msg);
+                    return false;
                 }
             }
             catch (error) {
                 console.error(error);
+                return false;
             }
         });
     }

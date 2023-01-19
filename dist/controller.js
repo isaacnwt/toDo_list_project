@@ -14,7 +14,7 @@ const url = "http://localhost/todo_list/todo.php";
 const taskList = new TaskList(url, 1);
 const getDataFromApi = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield taskList.getResults();
+        yield taskList.getTasks();
         view.showTaskList(taskList.list);
     }
     catch (error) {
@@ -26,8 +26,7 @@ elements.addButton.addEventListener("click", () => __awaiter(void 0, void 0, voi
     let request = taskList.createTask(elements.input.value);
     if (request) {
         view.addTask();
-        yield taskList.getResults();
-        view.showTaskList(taskList.list);
+        getDataFromApi;
     }
     else {
         alert("Falha ao registrar!");

@@ -6,7 +6,7 @@ class TaskList {
         private userId: number
     ) { }
 
-    async getResults(): Promise<void> {
+    async getTasks(): Promise<void> {
         try {
             const response = await fetch(`${this.api}?id=${this.userId.toString()}`);
             this._list = await response.json();
@@ -15,7 +15,7 @@ class TaskList {
         }
     }
 
-    async deleteTask(id: number): Promise<void> {
+    async deleteTask(id: number): Promise<boolean> {
         try {
             const response = await fetch(this.api, {
                 method: 'DELETE',
@@ -27,11 +27,14 @@ class TaskList {
             const json = await response.json();
             if (response.status === 200) {
                 console.log(json.msg);
+                return true;
             } else {
                 console.error(json.msg);
+                return false;
             }
         } catch (error) {
             console.error(error);
+            return false;
         }
     };
 

@@ -5,7 +5,6 @@ export const addTask = () => {
     if (!inputIsValid) {
         return inputIsValid = elements.input.classList.add("error");
     }
-    createNewTodoDiv(1000, elements.input.value);
     elements.input.value = "";
 };
 export const removeErrorClass = () => {
@@ -21,6 +20,7 @@ const createNewTodoDiv = (id, title) => {
     taskContent.innerHTML = title;
     deleteItem.addEventListener("click", () => deleteTask(id));
     taskItemContainer.classList.add("task-item");
+    taskItemContainer.id = id;
     deleteItem.classList.add("fa-solid");
     deleteItem.classList.add("fa-trash");
     taskItemContainer.appendChild(taskContent);
@@ -30,8 +30,10 @@ const createNewTodoDiv = (id, title) => {
 export const showTaskList = (taskList) => {
     elements.tasksContainer.innerHTML = "";
     taskList.forEach(task => {
-        createNewTodoDiv(task.id, task.title);
+        createNewTodoDiv(task.id.toString(), task.title);
     });
 };
 const deleteTask = (id) => {
+    const taskDiv = document.getElementById(id);
+    taskDiv.remove();
 };
