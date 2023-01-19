@@ -12,9 +12,6 @@ const getDataFromApi = async (): Promise<void> => {
         let taskList = new TaskList(url, 1);
         await taskList.getResults();
         view.showTaskList(taskList.list);
-
-        taskList.deleteTask(2);
-
     } catch (error) {
       console.log("Erro ao comunicar com a API");
     }

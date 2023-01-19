@@ -16,7 +16,6 @@ const getDataFromApi = () => __awaiter(void 0, void 0, void 0, function* () {
         let taskList = new TaskList(url, 1);
         yield taskList.getResults();
         view.showTaskList(taskList.list);
-        taskList.deleteTask(2);
     }
     catch (error) {
         console.log("Erro ao comunicar com a API");

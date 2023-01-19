@@ -26,30 +26,27 @@ class TaskList {
     deleteTask(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const xhr = new XMLHttpRequest();
-                xhr.open('DELETE', this.api);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.setRequestHeader('id', id.toString());
-                xhr.setRequestHeader('user_id', this.userId.toString());
-                xhr.onload = () => {
-                    if (xhr.status === 200) {
-                        console.log("Successful DELETE request");
-                        console.log(xhr.responseText);
-                    }
-                    else {
-                        console.log("Error: " + xhr.status);
-                    }
-                };
-                xhr.onerror = () => {
-                    console.log("Error while making DELETE request");
-                };
-                xhr.send();
+                const response = yield fetch(this.api, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `id=${id}&user_id=${this.userId}`
+                });
+                const json = yield response.json();
+                if (response.status === 200) {
+                    console.log(json.msg);
+                }
+                else {
+                    console.error(json.msg);
+                }
             }
             catch (error) {
-                console.log(error);
+                console.error(error);
             }
         });
     }
+    ;
     get list() {
         return this._list;
     }
