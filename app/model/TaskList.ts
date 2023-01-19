@@ -35,6 +35,27 @@ class TaskList {
         }
     };
 
+    async createTask(title: string, description: string = null) {
+        try {
+            const response = await fetch(this.api, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `title=${title}&description=${description}&user_id=${this.userId}`
+            });
+            const json = await response.json();
+            if (response.status === 201) {
+                console.log(json.msg);
+            } else {
+                console.error(json.msg);
+            }
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
 
     get list(): Task[] {

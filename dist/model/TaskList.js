@@ -47,6 +47,29 @@ class TaskList {
         });
     }
     ;
+    createTask(title, description = null) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch(this.api, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `title=${title}&description=${description}&user_id=${this.userId}`
+                });
+                const json = yield response.json();
+                if (response.status === 201) {
+                    console.log(json.msg);
+                }
+                else {
+                    console.error(json.msg);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
     get list() {
         return this._list;
     }
