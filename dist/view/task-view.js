@@ -26,4 +26,15 @@ export class TaskView {
         newContainer.appendChild(deleteItem);
         this.container.appendChild(newContainer);
     }
+    descriptionInput(input, element) {
+        if (input.value.trim().length === 1 && !element.querySelector(".description-input")) {
+            const descriptionInput = document.createElement("textarea");
+            descriptionInput.classList.add("description-input");
+            descriptionInput.setAttribute("placeholder", "Descrição (opcional)");
+            element.appendChild(descriptionInput);
+        }
+        else if (input.value.trim().length === 0) {
+            element.removeChild(element.lastElementChild);
+        }
+    }
 }

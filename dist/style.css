@@ -32,6 +32,7 @@ body {
 
 #input-container {
   display: flex;
+  flex-direction: column;
 }
 
 #tasks-container {
@@ -46,16 +47,27 @@ body {
 #input-container input {
   flex: 3;
   font-size: 1rem;
-  border: 2px solid #d1d3d4;
-  border-radius: 5px;
+  border: 0px;
+  border-bottom: 2px solid #d1d3d4;
   padding: 12px;
   font-weight: 500;
 }
 
-#input-container input:focus {
+#input-container input:focus, textarea:focus {
   outline: none;
   border-color: #41b883;
 }
+
+.description-input {
+  flex: 3;
+  font-size: 1rem;
+  border: 2px solid #d1d3d4;
+  border-radius: 5px;
+  padding: 12px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
 
 .botao_adicionar_tarefa{
   flex: 1;

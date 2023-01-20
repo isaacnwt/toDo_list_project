@@ -15,6 +15,8 @@ export class TaskController {
         this.taskView = new TaskView("#tasks-container");
         this.input = document.querySelector(".input_adicionar_tarefa");
         this.input.addEventListener("click", () => this.removeErrorClass());
+        this.input.addEventListener("input", () => this.taskView.descriptionInput(this.input, this.inputDiv));
+        this.inputDiv = document.getElementById("input-container");
         this.tasksDivs = document.getElementById("tasks-container").children;
         this.taskService = new TaskService(this.userId);
     }
