@@ -7,50 +7,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-class TaskList {
-    constructor(api, userId) {
-        this.api = api;
+export class TaskService {
+    constructor(userId) {
         this.userId = userId;
+        this.api = "http://localhost/todo_list/todo.php";
     }
-    getTasks() {
+    get() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield fetch(`${this.api}?id=${this.userId.toString()}`);
-                this._list = yield response.json();
+                return yield response.json();
             }
             catch (error) {
                 console.log(error);
             }
         });
     }
-    deleteTask(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield fetch(this.api, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `id=${id}&user_id=${this.userId}`
-                });
-                const json = yield response.json();
-                if (response.status === 200) {
-                    console.log(json.msg);
-                    return true;
-                }
-                else {
-                    console.error(json.msg);
-                    return false;
-                }
-            }
-            catch (error) {
-                console.error(error);
-                return false;
-            }
-        });
-    }
-    ;
-    createTask(title, description = null) {
+    create(title, description = null) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield fetch(this.api, {
@@ -60,24 +33,29 @@ class TaskList {
                     },
                     body: `title=${title}&description=${description}&user_id=${this.userId}`
                 });
-                const json = yield response.json();
-                if (response.status === 201) {
-                    console.log(json.msg);
-                    return true;
-                }
-                else {
-                    console.error(json.msg);
-                    return false;
-                }
+                return response;
             }
             catch (error) {
                 console.error(error);
-                return false;
             }
         });
     }
-    get list() {
-        return this._list;
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch(this.api, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `id=${id}&user_id=${this.userId}`
+                });
+                return response;
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
     }
+    ;
 }
-export { TaskList };

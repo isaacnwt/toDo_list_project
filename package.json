@@ -2,7 +2,7 @@
   "name": "todo_list_project",
   "version": "1.0.0",
   "description": "front end para uma aplicação web de 'to do list'",
-  "main": "controller.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest",
     "server": "lite-server --baseDir=dist",
