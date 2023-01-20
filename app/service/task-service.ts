@@ -1,5 +1,6 @@
 export class TaskService {
     private readonly api = "http://localhost/todo_list/todo.php";
+    private readonly header = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
     constructor( private userId: number ) { }
 
@@ -12,14 +13,14 @@ export class TaskService {
         }
     }
 
-    async create(title: string, description: string = null): Promise<Response> {
+    async create(title: string, description?: string): Promise<Response> {
         try {
+            let body = this.getBody(title, description);
+            
             const response = await fetch(this.api, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `title=${title}&description=${description}&user_id=${this.userId}`
+                headers: this.header,
+                body: body
             });
             return response;
         } catch (error) {
@@ -31,9 +32,7 @@ export class TaskService {
         try {
             const response = await fetch(this.api, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
+                headers: this.header,
                 body: `id=${id}&user_id=${this.userId}`
             });
             return response;
@@ -41,5 +40,13 @@ export class TaskService {
             console.error(error);
         }
     };
+
+    private getBody(title: string, description: string): string {
+        if(description) {
+            return `title=${title}&description=${description}&user_id=${this.userId}`
+        } else {
+            return `title=${title}&user_id=${this.userId}`
+        }
+    }
 
 }

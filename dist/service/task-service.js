@@ -11,6 +11,7 @@ export class TaskService {
     constructor(userId) {
         this.userId = userId;
         this.api = "http://localhost/todo_list/todo.php";
+        this.header = { 'Content-Type': 'application/x-www-form-urlencoded' };
     }
     get() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,15 +24,14 @@ export class TaskService {
             }
         });
     }
-    create(title, description = null) {
+    create(title, description) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                let body = this.getBody(title, description);
                 const response = yield fetch(this.api, {
                     method: "POST",
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `title=${title}&description=${description}&user_id=${this.userId}`
+                    headers: this.header,
+                    body: body
                 });
                 return response;
             }
@@ -45,9 +45,7 @@ export class TaskService {
             try {
                 const response = yield fetch(this.api, {
                     method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
+                    headers: this.header,
                     body: `id=${id}&user_id=${this.userId}`
                 });
                 return response;
@@ -58,4 +56,12 @@ export class TaskService {
         });
     }
     ;
+    getBody(title, description) {
+        if (description) {
+            return `title=${title}&description=${description}&user_id=${this.userId}`;
+        }
+        else {
+            return `title=${title}&user_id=${this.userId}`;
+        }
+    }
 }
