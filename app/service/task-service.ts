@@ -21,7 +21,7 @@ export class TaskService {
                 },
                 body: `title=${title}&description=${description}&user_id=${this.userId}`
             });
-            return response; 
+            return response;
         } catch (error) {
             console.error(error);
         }

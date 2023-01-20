@@ -14,6 +14,8 @@ export class TaskController {
         this.userId = userId;
         this.taskView = new TaskView("#tasks-container");
         this.input = document.querySelector(".input_adicionar_tarefa");
+        this.input.addEventListener("click", () => this.removeErrorClass());
+        this.tasksDivs = document.getElementById("tasks-container").children;
         this.taskService = new TaskService(this.userId);
     }
     create() {
@@ -26,7 +28,7 @@ export class TaskController {
                 let response = yield this.taskService.create(this.input.value);
                 if (response.status === 201) {
                     alert("Task cadastrada com sucesso"); // melhorar depois
-                    this.taskView.update(yield this.taskService.get());
+                    this.loadData();
                     this.input.value = "";
                 }
                 else {
@@ -40,9 +42,33 @@ export class TaskController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 this.taskView.update(yield this.taskService.get());
+                this.addDeleteEvent();
             }
             catch (error) {
                 console.error(error);
+            }
+        });
+    }
+    addDeleteEvent() {
+        for (let i = 0; i < this.tasksDivs.length; i++) {
+            let button = this.tasksDivs[i].querySelector("i");
+            button.addEventListener("click", () => {
+                let taskDiv = button.parentNode;
+                let id = taskDiv.getAttribute("id");
+                this.delete(id);
+            });
+        }
+    }
+    delete(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let response = yield this.taskService.delete(parseInt(id));
+            if (response.status === 200) {
+                alert("Task deletada com sucesso"); // melhorar depois
+                this.loadData();
+            }
+            else {
+                console.log(response.status);
+                alert("Falha ao deletar!");
             }
         });
     }
