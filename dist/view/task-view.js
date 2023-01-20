@@ -5,20 +5,25 @@ export class TaskView {
     update(taskList) {
         this.container.innerHTML = "";
         taskList.forEach(task => {
-            this.appendTaskDiv(task.id.toString(), task.title);
+            this.appendTaskDiv(task.id.toString(), task.title, task.description);
         });
     }
-    appendTaskDiv(id, title) {
-        const taskItemContainer = document.createElement("div");
-        const taskContent = document.createElement("p");
+    appendTaskDiv(id, title, description) {
+        const newContainer = document.createElement("div");
+        const taskContainer = document.createElement("div");
+        const taskTitle = document.createElement("h3");
+        const taskDescription = document.createElement("p");
         const deleteItem = document.createElement("i");
-        taskContent.innerHTML = title;
-        taskItemContainer.classList.add("task-item");
-        taskItemContainer.id = id;
+        taskTitle.innerHTML = title;
+        taskDescription.innerHTML = description;
+        newContainer.classList.add("task-item");
+        newContainer.id = id;
         deleteItem.classList.add("fa-solid");
         deleteItem.classList.add("fa-trash");
-        taskItemContainer.appendChild(taskContent);
-        taskItemContainer.appendChild(deleteItem);
-        this.container.appendChild(taskItemContainer);
+        taskContainer.appendChild(taskTitle);
+        taskContainer.appendChild(taskDescription);
+        newContainer.appendChild(taskContainer);
+        newContainer.appendChild(deleteItem);
+        this.container.appendChild(newContainer);
     }
 }
