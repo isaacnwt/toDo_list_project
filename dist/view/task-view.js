@@ -6,7 +6,9 @@ export class TaskView extends View {
                 <div class="task-item" id="${task.id}">
                     <div>
                         <h3>${task.title}</h3>
-                        ${task.description ? `<p>${task.description}</p>` : ""} 
+                        <div id="description-text">
+                            ${task.description ? `<p>${task.description}</p>` : ""} 
+                        </div>
                     </div>
                     <i class="fa-solid fa-trash"></i>
                 </div>

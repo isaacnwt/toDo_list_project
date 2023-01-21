@@ -60,7 +60,6 @@ export class TaskController {
 
   private returnCreateResult(response: Response): void {
     if (response.status === 201) {
-      alert("Task cadastrada com sucesso"); // melhorar depois
       this.loadData();
       this.input.value = "";
       this.inputView.remove();
