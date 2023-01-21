@@ -16,45 +16,9 @@ export class TaskController {
         this.taskView = new TaskView("#tasks-container");
         this.inputView = new InputView("#description-container");
         this.input = document.querySelector(".input_adicionar_tarefa");
-        this.input.addEventListener("click", () => this.removeErrorClass());
         this.inputDiv = document.getElementById("input-container");
         this.tasksDivs = document.getElementById("tasks-container").children;
         this.taskService = new TaskService(this.userId);
-    }
-    create() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.inputHasValue()) {
-                this.input.classList.add("error");
-            }
-            else {
-                let response = yield this.taskService.create(this.input.value);
-                if (response.status === 201) {
-                    alert("Task cadastrada com sucesso"); // melhorar depois
-                    this.loadData();
-                    this.input.value = "";
-                }
-                else {
-                    console.log(response.status);
-                    alert("Falha ao registrar!");
-                }
-            }
-        });
-    }
-    addDescription() {
-        if (this.inputHasValue() && !this.isDescriptionShown()) {
-            this.inputView.update("Descrição (opcional)");
-        }
-        else if (!this.inputHasValue()) {
-            this.inputView.remove();
-        }
-    }
-    inputHasValue() {
-        return this.input.value.trim().length > 0;
-    }
-    isDescriptionShown() {
-        if (this.inputDiv.querySelector(".description-input")) {
-            return true;
-        }
     }
     loadData() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -67,14 +31,25 @@ export class TaskController {
             }
         });
     }
-    addDeleteEvent() {
-        for (let i = 0; i < this.tasksDivs.length; i++) {
-            let button = this.tasksDivs[i].querySelector("i");
-            button.addEventListener("click", () => {
-                let taskDiv = button.parentNode;
-                let id = taskDiv.getAttribute("id");
-                this.delete(id);
-            });
+    create() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.inputHasValue()) {
+                this.input.classList.add("error");
+                this.input.addEventListener("click", () => this.removeErrorClass());
+            }
+            else {
+                let descriptionInput = this.getDescriptionInput();
+                let response = yield this.taskService.create(this.input.value, descriptionInput.value);
+                this.returnCreateResult(response);
+            }
+        });
+    }
+    addDescription() {
+        if (this.inputHasValue() && !this.getDescriptionInput()) {
+            this.inputView.update("Descrição (opcional)");
+        }
+        else if (!this.inputHasValue()) {
+            this.inputView.remove();
         }
     }
     delete(id) {
@@ -90,7 +65,35 @@ export class TaskController {
             }
         });
     }
+    returnCreateResult(response) {
+        if (response.status === 201) {
+            alert("Task cadastrada com sucesso"); // melhorar depois
+            this.loadData();
+            this.input.value = "";
+            this.inputView.remove();
+        }
+        else {
+            console.log(response.status);
+            alert("Falha ao registrar!");
+        }
+    }
+    addDeleteEvent() {
+        for (let i = 0; i < this.tasksDivs.length; i++) {
+            let button = this.tasksDivs[i].querySelector("i");
+            button.addEventListener("click", () => {
+                let taskDiv = button.parentNode;
+                let id = taskDiv.getAttribute("id");
+                this.delete(id);
+            });
+        }
+    }
     removeErrorClass() {
         this.input.classList.remove("error");
+    }
+    inputHasValue() {
+        return this.input.value.trim().length > 0;
+    }
+    getDescriptionInput() {
+        return this.inputDiv.querySelector(".description-input");
     }
 }
