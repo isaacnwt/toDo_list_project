@@ -12,3 +12,4 @@ const taskController = new TaskController(1);
 const addButton = document.querySelector(".botao_adicionar_tarefa");
 window.addEventListener("load", () => __awaiter(void 0, void 0, void 0, function* () { return taskController.loadData(); }));
 addButton.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () { return taskController.create(); }));
+taskController.input.addEventListener("input", () => taskController.addDescription());

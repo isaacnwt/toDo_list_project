@@ -8,23 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { TaskService } from "../service/task-service.js";
+import { InputView } from "../view/input-view.js";
 import { TaskView } from "../view/task-view.js";
 export class TaskController {
     constructor(userId) {
         this.userId = userId;
         this.taskView = new TaskView("#tasks-container");
+        this.inputView = new InputView("#description-container");
         this.input = document.querySelector(".input_adicionar_tarefa");
         this.input.addEventListener("click", () => this.removeErrorClass());
-        this.input.addEventListener("input", () => this.taskView.descriptionInput(this.input, this.inputDiv));
         this.inputDiv = document.getElementById("input-container");
         this.tasksDivs = document.getElementById("tasks-container").children;
         this.taskService = new TaskService(this.userId);
     }
     create() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.input.value == "") {
+            if (!this.inputHasValue()) {
                 this.input.classList.add("error");
-                alert("Input vazio"); // melhorar depois
             }
             else {
                 let response = yield this.taskService.create(this.input.value);
@@ -39,6 +39,22 @@ export class TaskController {
                 }
             }
         });
+    }
+    addDescription() {
+        if (this.inputHasValue() && !this.isDescriptionShown()) {
+            this.inputView.update("Descrição (opcional)");
+        }
+        else if (!this.inputHasValue()) {
+            this.inputView.remove();
+        }
+    }
+    inputHasValue() {
+        return this.input.value.trim().length > 0;
+    }
+    isDescriptionShown() {
+        if (this.inputDiv.querySelector(".description-input")) {
+            return true;
+        }
     }
     loadData() {
         return __awaiter(this, void 0, void 0, function* () {

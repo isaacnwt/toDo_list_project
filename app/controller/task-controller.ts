@@ -1,26 +1,26 @@
 import { TaskService } from "../service/task-service.js";
+import { InputView } from "../view/input-view.js";
 import { TaskView } from "../view/task-view.js";
 
 export class TaskController {
-  private input: HTMLInputElement;
+  public input: HTMLInputElement;
   private inputDiv: HTMLElement;
   private tasksDivs: HTMLCollection;
   private taskService: TaskService;
   private taskView = new TaskView("#tasks-container");
+  private inputView = new InputView("#description-container");
 
   constructor(private userId: number) {
     this.input = document.querySelector(".input_adicionar_tarefa");
     this.input.addEventListener("click", () => this.removeErrorClass());
-    this.input.addEventListener("input", () => this.taskView.descriptionInput(this.input, this.inputDiv));
     this.inputDiv = document.getElementById("input-container");
     this.tasksDivs = document.getElementById("tasks-container").children;
     this.taskService = new TaskService(this.userId);
   }
 
   async create(): Promise<void> {
-    if (this.input.value == "") {
+    if (!this.inputHasValue()) {
       this.input.classList.add("error");
-      alert("Input vazio"); // melhorar depois
     }
     else {
       let response = await this.taskService.create(this.input.value);
@@ -32,6 +32,24 @@ export class TaskController {
         console.log(response.status);
         alert("Falha ao registrar!");
       }
+    }
+  }
+
+  addDescription(): void {
+    if (this.inputHasValue() && !this.isDescriptionShown()) {
+      this.inputView.update("Descrição (opcional)");
+    } else if (!this.inputHasValue()) {
+      this.inputView.remove();
+    }
+  }
+
+  private inputHasValue(): boolean {
+    return this.input.value.trim().length > 0;
+  }
+
+  private isDescriptionShown(): boolean {
+    if (this.inputDiv.querySelector(".description-input")) {
+      return true;
     }
   }
 

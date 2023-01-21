@@ -66,6 +66,7 @@ body {
   padding: 12px;
   font-weight: 500;
   margin-top: 10px;
+  width: 100%;
 }
 
 
@@ -106,7 +107,8 @@ body {
 
 /* Utilities */
 .error {
-  border: 2px solid red !important;
+  border: 0px;
+  border-bottom: 2px solid red !important;
 }
 
 .error::placeholder {
