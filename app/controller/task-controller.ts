@@ -4,24 +4,25 @@ import { TaskView } from "../view/task-view.js";
 
 export class TaskController {
   private taskService: TaskService;
+  private taskView: TaskView;
+  private inputView : InputView;
   public input: HTMLInputElement;
   private inputDiv: HTMLElement;
   private tasksDivs: HTMLCollection;
-  private taskView = new TaskView("#tasks-container");
-  private inputView = new InputView("#description-container");
 
   constructor(private userId: number) {
+    this.taskService = new TaskService(this.userId);
+    this.taskView = new TaskView("#tasks-container");
+    this.inputView = new InputView("#description-container");
     this.input = document.querySelector(".input_adicionar_tarefa");
     this.inputDiv = document.getElementById("input-container");
     this.tasksDivs = document.getElementById("tasks-container").children;
-    this.taskService = new TaskService(this.userId);
   }
 
   public async loadData(): Promise<void> {
     try {
       this.taskView.update(await this.taskService.get());
-      this.addDoneEvent();
-      this.addDeleteEvent();
+      this.addEvents();
     } catch (error) {
       console.error(error);
     }
@@ -33,14 +34,16 @@ export class TaskController {
       this.input.addEventListener("click", () => this.removeErrorClass());
     } else {
       let descriptionInput = this.getDescriptionInput();
-      let response = await this.taskService.create(
-        this.input.value, 
-        descriptionInput.value);
+      let response = await this.taskService
+      .create(
+        this.input.value,
+        descriptionInput.value
+      );
       this.returnCreateResult(response);
     }
   }
 
-  public addDescription(): void {
+  public addDescriptionTextBox(): void {
     if (this.inputHasValue() && !this.getDescriptionInput()) {
       this.inputView.update("Descrição (opcional)");
     } else if (!this.inputHasValue()) {
@@ -70,21 +73,24 @@ export class TaskController {
     }
   }
 
-  private addDeleteEvent(): void {
-    for (let i = 0; i < this.tasksDivs.length; i++) {
-      let button = this.tasksDivs[i].querySelector("i");
-      button.addEventListener("click", () => {
-        let taskDiv = button.parentNode as HTMLDivElement;
-        let id = taskDiv.getAttribute("id");
-        this.delete(id);
-      })
-    }
+  private addDeleteEvent(taskDiv: Element): void {
+    taskDiv.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      if (target.matches(".delete-icon")) {
+        this.delete(taskDiv.getAttribute("id"));
+      }
+    })
   }
 
-  private addDoneEvent(): void {
+  private addDoneEvent(taskDiv: Element): void {
+    const content = taskDiv.querySelector(".task-content");
+    content.addEventListener("dblclick", () => this.taskView.turnDone(content));
+  }
+
+  private addEvents(): void {
     for (let i = 0; i < this.tasksDivs.length; i++) {
-      let content = this.tasksDivs[i].querySelector(".task-content");
-      content.addEventListener("dblclick", () => this.taskView.turnDone(content));
+      this.addDoneEvent(this.tasksDivs[i]);
+      this.addDeleteEvent(this.tasksDivs[i]);
     }
   }
 

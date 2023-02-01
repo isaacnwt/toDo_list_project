@@ -5,4 +5,4 @@ const addButton = document.querySelector(".botao_adicionar_tarefa");
 
 window.addEventListener("load", async () => taskController.loadData());
 addButton.addEventListener("click", async () => taskController.create());
-taskController.input.addEventListener("input", () => taskController.addDescription());
+taskController.input.addEventListener("input", () => taskController.addDescriptionTextBox());
