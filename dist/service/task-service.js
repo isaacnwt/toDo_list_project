@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 export class TaskService {
     constructor(userId) {
         this.userId = userId;
-        this.api = "http://localhost/todo_list/todo.php";
+        this.api = "http://localhost/todo-list-api/todo.php";
         this.header = { 'Content-Type': 'application/x-www-form-urlencoded' };
     }
     get() {

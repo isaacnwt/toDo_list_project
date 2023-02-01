@@ -1,5 +1,5 @@
 export class TaskService {
-    private readonly api = "http://localhost/todo_list/todo.php";
+    private readonly api = "http://localhost/todo-list-api/todo.php";
     private readonly header = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
     constructor( private userId: number ) { }
