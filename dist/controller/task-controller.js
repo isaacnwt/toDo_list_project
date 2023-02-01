@@ -24,6 +24,7 @@ export class TaskController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 this.taskView.update(yield this.taskService.get());
+                this.addDoneEvent();
                 this.addDeleteEvent();
             }
             catch (error) {
@@ -84,6 +85,12 @@ export class TaskController {
                 let id = taskDiv.getAttribute("id");
                 this.delete(id);
             });
+        }
+    }
+    addDoneEvent() {
+        for (let i = 0; i < this.tasksDivs.length; i++) {
+            let content = this.tasksDivs[i].querySelector(".task-content");
+            content.addEventListener("dblclick", () => this.taskView.turnDone(content));
         }
     }
     removeErrorClass() {

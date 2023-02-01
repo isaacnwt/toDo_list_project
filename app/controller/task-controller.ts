@@ -20,6 +20,7 @@ export class TaskController {
   public async loadData(): Promise<void> {
     try {
       this.taskView.update(await this.taskService.get());
+      this.addDoneEvent();
       this.addDeleteEvent();
     } catch (error) {
       console.error(error);
@@ -77,6 +78,13 @@ export class TaskController {
         let id = taskDiv.getAttribute("id");
         this.delete(id);
       })
+    }
+  }
+
+  private addDoneEvent(): void {
+    for (let i = 0; i < this.tasksDivs.length; i++) {
+      let content = this.tasksDivs[i].querySelector(".task-content");
+      content.addEventListener("dblclick", () => this.taskView.turnDone(content));
     }
   }
 
