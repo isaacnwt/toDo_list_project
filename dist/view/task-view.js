@@ -10,7 +10,7 @@ export class TaskView extends View {
                             ${task.description ? `<p>${task.description}</p>` : ""} 
                         </div>
                     </div>
-                    <i class="fa-solid fa-trash"></i>
+                    <i class="delete-icon fa-solid fa-trash"></i>
                 </div>
             `;
         }).join('')}`;

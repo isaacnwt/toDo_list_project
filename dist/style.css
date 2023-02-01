@@ -94,14 +94,14 @@ body {
   margin-top: 6px;
 }
 
-.task-item i {
-  background-color: #41b883;
+.task-item .delete-icon {
+  background-color: #F6511D;
   color: #fff;
   padding: 12px;
   border-radius: 5px;
 }
 
-.task-item i:hover {
+.task-item .delete-icon:hover {
   cursor: pointer;
 }
 
